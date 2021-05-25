@@ -1,0 +1,32 @@
+---
+- name: blocks anidados
+  hosts: localhost
+  vars:
+    falla_plz: false
+  tasks:
+    - name: bloque 1
+      block:
+        - name: soy el bloque 1
+          debug:
+            msg: soy el bloque 1
+
+        - name: soy el bloque 2
+          block:
+            - name: soy el bloque 2
+              debug:
+                msg: soy el bloque 2
+
+            - name: fallo si me lo pides
+              fail:
+                msg: he fallado porque me lo has dicho
+              when: falla_plz
+
+          rescue:
+            - name: soy el rescue de bloque 2
+              debug:
+                msg: soy el rescue del bloque 2
+      rescue:
+        - name: soy el rescue de bloque 1
+          debug:
+            msg: soy el rescue de bloque 1
+
